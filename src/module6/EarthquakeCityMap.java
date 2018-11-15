@@ -94,7 +94,7 @@ public class EarthquakeCityMap extends PApplet {
 		List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
 		countryMarkers = MapUtils.createSimpleMarkers(countries);
 		
-		//     STEP 2: read in city data
+		//     STEP 2: read in city data to create a list of Feature.
 		List<Feature> cities = GeoJSONReader.loadData(this, cityFile);
 		cityMarkers = new ArrayList<Marker>();
 		for(Feature city : cities) {
