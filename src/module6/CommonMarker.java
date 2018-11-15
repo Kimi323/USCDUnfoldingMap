@@ -43,6 +43,7 @@ public abstract class CommonMarker extends SimplePointMarker {
 		if (!hidden) {
 			drawMarker(pg, x, y);
 			if (selected) {
+				// this method is implemented in EarthquakeMarker and CityMarker class.
 				showTitle(pg, x, y);
 			}
 		}
