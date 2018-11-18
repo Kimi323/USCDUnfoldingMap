@@ -25,6 +25,7 @@ public abstract class CommonMarker extends SimplePointMarker {
 	
 	// Getter method for clicked field
 	public boolean getClicked() {
+		System.out.println("clicked: " + clicked);
 		return clicked;
 	}
 	
