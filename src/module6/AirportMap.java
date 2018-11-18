@@ -10,6 +10,7 @@ import de.fhpotsdam.unfolding.data.ShapeFeature;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimpleLinesMarker;
 import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import de.fhpotsdam.unfolding.geo.Location;
 import parsing.ParseFeed;
@@ -34,11 +35,12 @@ public class AirportMap extends PApplet {
 	
 	public void setup() {
 		// setting up PApplet
-		size(1600, 1200, OPENGL);
+		size(1000, 700, OPENGL);
 		
 		// setting up map and default events
 		//map = new UnfoldingMap(this, 50, 50, 750, 550);
-		map = new UnfoldingMap(this, 150, 50, 1500, 1100, new Google.GoogleMapProvider());
+		map = new UnfoldingMap(this, 200, 50, 750, 600, new Microsoft.HybridProvider());
+		//map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// get features from airport data
@@ -74,10 +76,12 @@ public class AirportMap extends PApplet {
 				route.addLocation(airports.get(dest));
 			}
 			// Creates a line marker from shape feature with additional properties.
-			// each ShapeFeature route has 2 properties: source and dest
+			// each ShapeFeature route has 2 properties: source and destination.
 			SimpleLinesMarker sl = new SimpleLinesMarker(route.getLocations(), route.getProperties());
 			// hide all routes when application starts
 			sl.setHidden(true);
+			int darkOrange = color(255, 140, 0);
+			sl.setColor(darkOrange);
 			//System.out.println(sl.getProperties());
 			// add all SimpleLinesMarkers to routeList.
 			routeList.add(sl);
@@ -88,9 +92,10 @@ public class AirportMap extends PApplet {
 		
 	}
 	
-	public void draw() {
-		background(0);
-		map.draw();		
+	public void draw() {		
+		background(10);
+		map.draw();
+		addKey();
 	}
 	
 	@Override
@@ -195,5 +200,44 @@ public class AirportMap extends PApplet {
 		for (Marker m : airportList) {
 			m.setHidden(true);
 		}
+	}
+	
+	// add notations for markers
+	private void addKey() {
+		fill(204, 229, 255);		
+		int xbase = 25;
+		int ybase = 50;
+		// rectangle background
+		rect(xbase, ybase, 160, 250);
+		
+		fill(0);
+		textAlign(LEFT, CENTER);
+		textSize(12);
+		text("Keys", xbase + 25, ybase + 30);
+		
+		fill(0);
+		textAlign(LEFT, CENTER);
+		text("Airport Marker", xbase + 50, ybase + 60);
+		
+		fill(113, 182, 247);
+		stroke(0);
+		ellipse(xbase + 30, ybase + 60, 10, 10);
+		
+		fill(0);
+		textAlign(LEFT, CENTER);
+		text("Flight Route", xbase + 50, ybase + 90);
+		
+		// To color a line, use the stroke() function. A line cannot be filled, 
+		stroke(255, 140, 0);
+		line(xbase + 25, ybase + 90, xbase + 40, ybase + 90);
+		// make other lines white
+		stroke(255);
+		
+		text("Click on airport marker", xbase + 20, ybase + 120);
+		text("to see related routes", xbase + 20, ybase + 135);
+		text("and other airports.", xbase + 20, ybase + 150);
+		text("Hover over airport", xbase + 20, ybase + 180); 
+		text("marker to see name,", xbase + 20, ybase + 195);  
+		text("code, city, and country", xbase + 20, ybase + 210);
 	}
 }
