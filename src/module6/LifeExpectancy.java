@@ -5,8 +5,6 @@ import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import de.fhpotsdam.unfolding.providers.*;
-import de.fhpotsdam.unfolding.providers.Google.*;
-
 import java.util.List;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -25,6 +23,10 @@ import de.fhpotsdam.unfolding.marker.Marker;
  */
 public class LifeExpectancy extends PApplet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	UnfoldingMap map;
 	HashMap<String, Float> lifeExpMap;
 	List<Feature> countries;

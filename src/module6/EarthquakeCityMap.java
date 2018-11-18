@@ -1,7 +1,7 @@
 package module6;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -85,15 +85,16 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
+		// A feature stores one or more locations, its type, and additional data properties.
 		List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
 		countryMarkers = MapUtils.createSimpleMarkers(countries);
 		
-		//     STEP 2: read in city data
+		//     STEP 2: read in city data to create a list of Feature.
 		List<Feature> cities = GeoJSONReader.loadData(this, cityFile);
 		cityMarkers = new ArrayList<Marker>();
 		for(Feature city : cities) {
@@ -117,6 +118,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+	    sortAndPrint(20);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -139,6 +141,18 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint) {
+		ArrayList<EarthquakeMarker> earthquakeMarkers = new ArrayList<EarthquakeMarker>();
+		//quakeMarkers is ArrayList<Marker>;
+		for (Marker m : quakeMarkers) {
+			earthquakeMarkers.add((EarthquakeMarker) m);
+		}
+		Collections.sort(earthquakeMarkers);  //cannot use quakeMarkers
+		for (int i=0; i<numToPrint; i++) {
+			String title = earthquakeMarkers.get(i).getTitle();
+			System.out.println(title);
+		}
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
@@ -191,6 +205,7 @@ public class EarthquakeCityMap extends PApplet {
 		else if (lastClicked == null) 
 		{
 			checkEarthquakesForClick();
+			// if earthquakeMarker is not clicked, check cityMarkers.
 			if (lastClicked == null) {
 				checkCitiesForClick();
 			}
@@ -203,9 +218,10 @@ public class EarthquakeCityMap extends PApplet {
 	{
 		if (lastClicked != null) return;
 		// Loop over the earthquake markers to see if one of them is selected
-		for (Marker marker : cityMarkers) {
+		for (Marker m : cityMarkers) {
+			CityMarker marker = (CityMarker)m;
 			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
-				lastClicked = (CommonMarker)marker;
+				lastClicked = marker;
 				// Hide all the other earthquakes and hide
 				for (Marker mhide : cityMarkers) {
 					if (mhide != lastClicked) {
@@ -234,7 +250,7 @@ public class EarthquakeCityMap extends PApplet {
 			EarthquakeMarker marker = (EarthquakeMarker)m;
 			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = marker;
-				// Hide all the other earthquakes and hide
+				// Hide all the other earthquakes and hide cities outside of threat circle.
 				for (Marker mhide : quakeMarkers) {
 					if (mhide != lastClicked) {
 						mhide.setHidden(true);
