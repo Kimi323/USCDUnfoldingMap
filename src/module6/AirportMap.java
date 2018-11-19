@@ -38,9 +38,8 @@ public class AirportMap extends PApplet {
 		size(1000, 700, OPENGL);
 		
 		// setting up map and default events
-		//map = new UnfoldingMap(this, 50, 50, 750, 550);
-		map = new UnfoldingMap(this, 200, 50, 750, 600, new Microsoft.HybridProvider());
-		//map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+		//map = new UnfoldingMap(this, 200, 50, 750, 600, new Microsoft.HybridProvider());
+		map = new UnfoldingMap(this, 220, 50, 750, 600, new Google.GoogleMapProvider());
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// get features from airport data

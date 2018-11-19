@@ -1,0 +1,19 @@
+By default, all the airports are displayed and no routes displayed.
+If you click on one of the airport markers, routes out of that airport will be shown. 
+Also, the clicked marker itself and destination airports will be displayed. Other unrelated markers will be hidden.
+If you hover over an airport marker, name, code, city and country will be displayed.
+The screenshot is an example of airport in Rabat, Morroco. (I have traveled there before :)
+Click again (any place is fine), display will return to default.
+
+Inside AirportMarker class
+       1. Created a getTitle method which gets properties (name, code, city and country) of airport markers,
+combine them as a title, and return the title as a string.
+       2. Called getTitle from showTitle, this method draws a rectangle label with title created by getTitle.
+       3. Added getId method which returns unique ID of the airport. This will be used in AirportMap class.
+
+Inside AirportMap class
+       1. implemented checkAirportsForClick, It sets airport marker to variable lastClick and pass it to showRoutesForClickedAirport.
+       2. created showRoutesForClickedAirport method which take airport marker as an argument.
+It uses getId to get airport id of the clicked airport, then compare it with source and destination id (can be fetched from routeList). 
+If one of the ids matches airport id, this method will display the route out of this marker, then call showAirportOnRoute.
+       3. showAirportOnRoute method set airport markers which are connected by the routes out of  the clicked airport unhidden.
